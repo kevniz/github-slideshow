@@ -1,0 +1,9 @@
+{
+  "name": "github-slideshow",
+  "private": true,
+  "description": "Jekyll + reveal.js slideshow with ScrollCraft scroll animations",
+  "dependencies": {
+    "reveal.js": "3.9.2",
+    "scroll-craft": "0.1.0"
+  }
+}
