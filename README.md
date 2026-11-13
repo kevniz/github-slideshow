@@ -29,4 +29,4 @@ This site includes [ScrollCraft](https://github.com/Bilal-Studios/scroll-craft) 
 </script>
 ```
 
-To update it, run `npm install scroll-craft@<version>` and commit `node_modules/scroll-craft/package.json` and `node_modules/scroll-craft/dist/index.js` (the only files the site loads).
+To update it, run `npm install scroll-craft@<version>` and commit the changes in `node_modules/scroll-craft`.
