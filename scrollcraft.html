@@ -1,0 +1,94 @@
+---
+layout: null
+title: ScrollCraft demo
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ScrollCraft demo</title>
+  <style>
+    :root { --bg: #ffffff; --fg: #24292e; --muted: #6a737d; --accent: #0366d6; --line: #e1e4e8; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0d1117; --fg: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --line: #30363d; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 18px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+    section { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 48px 0; }
+    h1 { font-size: 2.6rem; line-height: 1.15; margin: 0 0 16px; }
+    h2 { font-size: 1.8rem; margin: 0 0 24px; }
+    p { color: var(--muted); margin: 0 0 16px; }
+    a { color: var(--accent); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .card { border: 1px solid var(--line); border-radius: 8px; padding: 20px; }
+    .card h3 { margin: 0 0 8px; font-size: 1.1rem; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; text-align: center; }
+    .stat span { display: block; font-size: 2.8rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+    .step { display: flex; gap: 24px; align-items: baseline; padding: 32px 0; border-bottom: 1px solid var(--line); }
+    .step-num-wrap { position: relative; font-size: 3.5rem; font-weight: 800; line-height: 1; flex: none; }
+    .step-num-ghost { color: var(--line); }
+    .sc-fill { position: absolute; inset: 0; color: var(--accent); clip-path: inset(0 100% 0 0); }
+    .step p { margin: 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1 class="sc-reveal">Scroll animations with ScrollCraft</h1>
+      <p class="sc-reveal">This page shows the three ScrollCraft effects: reveal, counter and progress. Scroll down to see each one. <a href="{{ site.baseurl }}/">Back to the slideshow</a>.</p>
+    </section>
+
+    <section>
+      <h2 class="sc-reveal">Reveal</h2>
+      <div class="cards">
+        <div class="card sc-reveal"><h3>Fork</h3><p>Copy a repository to your own account.</p></div>
+        <div class="card sc-reveal"><h3>Branch</h3><p>Work on a change without touching main.</p></div>
+        <div class="card sc-reveal"><h3>Pull request</h3><p>Propose your change and get a review.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sc-reveal">Counter</h2>
+      <div class="stats">
+        <div class="stat"><span data-count="1200">0</span><p>commits</p></div>
+        <div class="stat"><span data-count="94">0</span><p>pull requests</p></div>
+        <div class="stat"><span data-count="37">0</span><p>contributors</p></div>
+      </div>
+    </section>
+
+    <section id="timeline">
+      <h2 class="sc-reveal">Progress</h2>
+      <div class="step">
+        <span class="step-num-wrap"><span class="step-num-ghost">01</span><span class="sc-fill" aria-hidden="true">01</span></span>
+        <p>Create a branch for your change.</p>
+      </div>
+      <div class="step">
+        <span class="step-num-wrap"><span class="step-num-ghost">02</span><span class="sc-fill" aria-hidden="true">02</span></span>
+        <p>Commit your edits and push them.</p>
+      </div>
+      <div class="step">
+        <span class="step-num-wrap"><span class="step-num-ghost">03</span><span class="sc-fill" aria-hidden="true">03</span></span>
+        <p>Open a pull request and merge it.</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { ScrollCraft } from '{{ site.baseurl }}/node_modules/scroll-craft/dist/index.js';
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      new ScrollCraft()
+        .reveal('.sc-reveal', { direction: 'up', distance: '24px', duration: 600 })
+        .counter('[data-count]', { duration: 1400 })
+        .progress('#timeline .step');
+    } else {
+      document.querySelectorAll('[data-count]').forEach((el) => {
+        el.textContent = Number(el.dataset.count).toLocaleString('en-US');
+      });
+      document.querySelectorAll('.sc-fill').forEach((el) => { el.style.clipPath = 'none'; });
+    }
+  </script>
+</body>
+</html>
